@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # configure applications 
-    'accounts.apps.AccountsConfig',
+    'accounts',
     'polls.apps.PollsConfig',
     'rest_framework',
 ]
