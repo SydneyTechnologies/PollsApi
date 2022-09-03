@@ -1,13 +1,14 @@
-from argparse import ONE_OR_MORE
+from uuid import uuid4
 from django.db import models
 from django.contrib.auth import get_user_model
 
 # Create your models here.
 # now time to make the models for the polls
 class Poll(models.Model):
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE , null=True, blank=True)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE , null=True, blank=True, related_name="author")
     title = models.CharField(max_length=200, blank=True, null=True)
     question = models.TextField(blank=True, null=True)
+    id = models.UUIDField(default=uuid4())
 
     @property
     def get_poll_options(self):
@@ -26,13 +27,12 @@ class Option(models.Model):
         votes = Option.vote_set.all()
         return len(votes)
     
-    total_votes = models.IntegerField(editable=False, default=get_option_votes)
-    
     def __str__(self) -> str:
         return self.text
-    #def increas
 
 class Vote(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
-
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.author.email if self.author != None else "Vote" + str(self.id)
