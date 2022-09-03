@@ -8,7 +8,7 @@ class Poll(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE , null=True, blank=True, related_name="author")
     title = models.CharField(max_length=200, blank=True, null=True)
     question = models.TextField(blank=True, null=True)
-    id = models.UUIDField(default=uuid4())
+    identifier = models.UUIDField(default=uuid4(), blank=True, null=True)
 
     @property
     def get_poll_options(self):
@@ -22,6 +22,8 @@ class Poll(models.Model):
 class Option(models.Model):
     parent = models.ForeignKey(Poll, on_delete=models.CASCADE)
     text = models.CharField(max_length=200, blank=True, null=True)
+    identifier = models.UUIDField(default=uuid4(), blank=True, null=True)
+    
     @property
     def get_option_votes(self):
         votes = Option.vote_set.all()

@@ -7,12 +7,12 @@ from . models import Poll, Option, Vote
 class PollSerializer(ModelSerializer):
     class Meta:
         model = Poll
-        fields = "__all__"
+        fields = ["title", "question", "author"]
 
 class OptionSerializer(ModelSerializer):
     class Meta:
         model = Option
-        field = "__all__"
+        fields = "__all__"
 
 class VoteSerializer(ModelSerializer):
     class Meta:

@@ -1,7 +1,7 @@
 import email
-from typing import List
 from django.shortcuts import render
-from . models import Option, Poll
+from . models import Option, Poll, Vote
+from accounts.models import MyUser
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
 from .serializers import PollSerializer, OptionSerializer, VoteSerializer
 
@@ -10,14 +10,29 @@ class CreatePollApiView(CreateAPIView):
     model = Poll
     serializer_class = PollSerializer
 
+    def perform_create(self, serializer):
+        if self.request.user.is_authenticated:
+            serializer.save(author = self.request.user)
+        return super().perform_create(serializer)
+
 class CreateOptionApiView(CreateAPIView):
     model = Poll
     serializer_class = OptionSerializer
 
     def perform_create(self, serializer):
-        option_parent = Option.objects.get(id = self.kwargs["poll-id"])
-        if option_parent:
-            serializer.save(parent = option_parent)
+        poll = Poll.objects.get(identifier = self.kwargs["pollId"])
+        if poll:
+            serializer.save(parent = poll)
+        return super().perform_create(serializer)
+
+class CreateVoteApiView(CreateAPIView):
+    model = Vote
+    serializer_class = VoteSerializer
+
+    def perform_create(self, serializer):
+        option = Option.objects.get(identifier = self.kwargs["optionId"])
+        if option:
+            serializer.save(parent = option)
         return super().perform_create(serializer)
 
 class ListPollApiView(ListAPIView):
