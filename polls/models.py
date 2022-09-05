@@ -12,10 +12,14 @@ class Option(models.Model):
     identifier = models.UUIDField(default=uuid4(), blank=True, null=True)
     
     @property
-    def get_option_votes(self):
-        votes = Option.vote_set.all()
-        return len(votes)
+    def votes(self):
+        votes = Vote.objects.filter(option = self)#Option.vote_set.all()
+        return votes
     
+    def count(self):
+        votes = Vote.objects.filter(option = self)#Option.vote_set.all()
+        return len(votes)
+
     def __str__(self) -> str:
         return self.text
     
