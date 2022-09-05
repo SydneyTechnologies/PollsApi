@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from accounts.models import MyUser
-
+from .serializers import UserSerializer
 # Create your views here.
 def create_user(request):
     user_creation_form = UserForm()
@@ -13,6 +13,7 @@ def create_user(request):
 
 
 class CreateUser(APIView):
+    serializer_class = UserSerializer
     def post(self, request):
         email = request.POST["email"]
         password = request.POST["password"]
