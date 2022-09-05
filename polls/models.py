@@ -10,12 +10,7 @@ class Option(models.Model):
     parent = models.ForeignKey("Poll", on_delete=models.CASCADE)
     text = models.CharField(max_length=200, blank=True, null=True)
     identifier = models.UUIDField(default=uuid4(), blank=True, null=True)
-    
-    @property
-    def votes(self):
-        votes = Vote.objects.filter(option = self)#Option.vote_set.all()
-        return votes
-    
+        
     def count(self):
         votes = Vote.objects.filter(option = self)#Option.vote_set.all()
         return len(votes)
