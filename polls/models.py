@@ -22,7 +22,7 @@ class Poll(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE , null=True, blank=True, related_name="author")
     title = models.CharField(max_length=200, blank=True, null=True)
     question = models.TextField(blank=True, null=True)
-    identifier = models.UUIDField(default=uuid4(), blank=True, null=True)
+    identifier = models.UUIDField(default=uuid4(), editable=False)
     @property
     def options(self):
         return Option.objects.filter(parent = self)

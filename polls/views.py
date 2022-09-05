@@ -1,12 +1,12 @@
-import email
-from django.shortcuts import render
 from . models import Option, Poll, Vote
-from accounts.models import MyUser
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from .serializers import PollSerializer, OptionSerializer, VoteSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 class CreatePollApiView(CreateAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     model = Poll
     serializer_class = PollSerializer
 
@@ -16,8 +16,10 @@ class CreatePollApiView(CreateAPIView):
         return super().perform_create(serializer)
 
 class CreateOptionApiView(CreateAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     model = Poll
     serializer_class = OptionSerializer
+    queryset = Poll.objects.all()
 
     def perform_create(self, serializer):
         poll = Poll.objects.get(identifier = self.kwargs["pollId"])
@@ -36,6 +38,7 @@ class CreateVoteApiView(CreateAPIView):
         return super().perform_create(serializer)
 
 class ListPollApiView(ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     model = Poll
     serializer_class = PollSerializer
 

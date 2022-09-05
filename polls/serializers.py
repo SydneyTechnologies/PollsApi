@@ -19,6 +19,7 @@ class OptionSerializer(ModelSerializer):
 
 class PollSerializer(ModelSerializer):
     options = OptionSerializer(many=True, read_only=True)
+    author = serializers.StringRelatedField()
     class Meta:
         model = Poll
         fields = "__all__"
