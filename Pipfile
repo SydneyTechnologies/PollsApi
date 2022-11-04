@@ -10,6 +10,7 @@ djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 gunicorn = "*"
 whitenoise = "*"
+coreapi = "*"
 
 [dev-packages]
 

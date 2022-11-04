@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x_)1$$a_=#$^j+8*-^9re9+m#jmek$z3i*6okh89=)d#k@(9s#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://pollsapi-production.up.railway.app']
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # third party applications
     'rest_framework',
     'corsheaders',
+    # 'coreapi',
 ]
 
 MIDDLEWARE = [
@@ -116,7 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 CORS_ORIGIN_ALLOW_ALL = True

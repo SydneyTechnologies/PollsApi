@@ -23,6 +23,7 @@ class Poll(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     question = models.TextField(blank=True, null=True)
     identifier = models.UUIDField(default=uuid4(), editable=False)
+    public = models.BooleanField(default=False)
     @property
     def options(self):
         return Option.objects.filter(parent = self)

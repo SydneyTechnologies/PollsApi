@@ -37,7 +37,7 @@ class CreateVoteApiView(CreateAPIView):
             serializer.save(parent = option)
         return super().perform_create(serializer)
 
-class ListPollApiView(ListAPIView):
+class ListUserPollApiView(ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     model = Poll
     serializer_class = PollSerializer
@@ -46,4 +46,8 @@ class ListPollApiView(ListAPIView):
         result = Poll.objects.filter(author__email = self.kwargs["target"])
         return result
 
+class ListPublicPollsApiView(ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Poll.objects.filter(public=True)
+    serializer_class = PollSerializer
 

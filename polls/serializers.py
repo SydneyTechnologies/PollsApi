@@ -4,8 +4,7 @@ from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializ
 from . models import Poll, Option, Vote
 
 
-class VoteSerializer(serializers.StringRelatedField):
-
+class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
         fields = "__all__"
